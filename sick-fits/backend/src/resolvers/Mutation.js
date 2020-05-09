@@ -11,14 +11,31 @@ const Mutations = {
      *   is returned from the database
      */
 
-    const item = await ctx.db.mutation.createItem(
-      {
-        data: { ...args }
-      },
-      info
-    );
+    const item = ctx.db.mutation.createItem({ data: { ...args } }, info);
 
     return item;
+  },
+
+  updateItem: async (parent, args, ctx, info) => {
+    const updates = { ...args };
+
+    /**
+     * Automatically given another ID
+     * IDs don't change, so remove it
+     */
+
+    delete updates.id;
+
+    /**
+     * Still use args.id to find the right ID
+     * But don't delete, because we need it to
+     *   find the right item
+     */
+
+    return ctx.db.mutation.updateItem(
+      { data: updates, where: { id: args.id } },
+      info
+    );
   }
 };
 

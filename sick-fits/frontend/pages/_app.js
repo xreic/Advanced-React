@@ -7,6 +7,26 @@ import withData from '../lib/withData';
 import Page from '../components/Page';
 
 class MyApp extends App {
+  /**
+   * https://nextjs.org/docs/basic-features/data-fetching#only-runs-at-build-time
+   */
+
+  static getInitialProps = async ({ Component, ctx }) => {
+    let pageProps = {};
+
+    /**
+     * Crawls through all pages for any queries or mutations
+     * that need to be fetched before render
+     */
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    pageProps.query = ctx.query;
+    return { pageProps };
+  };
+
   render() {
     const { Component, apollo, pageProps } = this.props;
 
@@ -23,21 +43,3 @@ class MyApp extends App {
 }
 
 export default withData(MyApp);
-
-export const getStaticProps = async ({ Componenet, ctx }) => {
-  let pageProps = {};
-
-  /**
-   * Crawls through all pages for any queries or mutations
-   * that need to be fetched before render
-   * Important for SSR
-   */
-
-  if (Componenet.getInitialProps) {
-    pageProps = await Componenet.getInitialProps(ctx);
-  }
-
-  // Exposes the URL queries to the user
-  pageProps.query = ctx.query;
-  return { props: pageProps };
-};
