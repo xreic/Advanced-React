@@ -1,9 +1,12 @@
-const sell = () => {
+// Components
+import CreateItem from '../components/CreateItem';
+
+const Sell = () => {
   return (
     <div>
-      <p>Sell</p>
+      <CreateItem />
     </div>
   );
 };
 
-export default sell;
+export default Sell;

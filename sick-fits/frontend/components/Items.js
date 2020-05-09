@@ -1,9 +1,40 @@
+// Dependencies
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+
+// Components
 import Item from './Item';
 
+// GraphQL
+const ALL_ITEMS_QUERY = gql`
+  query ALL_ITEMS_QUERY {
+    items {
+      id
+      title
+      price
+      description
+      image
+      largeImage
+    }
+  }
+`;
+
+// Styled
+const Center = styled.div`
+  text-align: center;
+`;
+
+const ItemsList = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 60px;
+  max-width: ${(props) => props.theme.maxWidth};
+  margin: 0 auto;
+`;
+
+// React
 class Items extends Component {
   render() {
     return (
@@ -29,28 +60,4 @@ class Items extends Component {
 }
 
 export default Items;
-
-const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY {
-    items {
-      id
-      title
-      price
-      description
-      image
-      largeImage
-    }
-  }
-`;
-
-const Center = styled.div`
-  text-align: center;
-`;
-
-const ItemsList = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 60px;
-  max-width: ${(props) => props.theme.maxWidth};
-  margin: 0 auto;
-`;
+export { ALL_ITEMS_QUERY };
