@@ -25,12 +25,7 @@ server.express.use((req, res, next) => {
 });
 
 server.start(
-  {
-    cors: {
-      credentials: true,
-      origin: process.env.FRONTEND_URL
-    }
-  },
+  { cors: { credentials: true, origin: process.env.FRONTEND_URL } },
   (details) => {
     console.log(`GraphQL running on http://localhost:${details.port}`);
   }

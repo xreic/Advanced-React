@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 
 // Components
+import User from '../components/User';
 import Signup from '../components/Signup';
 import Signin from '../components/Signin';
 
@@ -17,7 +18,7 @@ const SignUpPage = () => {
   return (
     <Columns>
       <Signup />
-      <Signin />
+      <User>{({ data: { me } }) => !me && <Signin />}</User>
     </Columns>
   );
 };
