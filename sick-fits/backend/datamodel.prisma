@@ -3,3 +3,18 @@ type User {
   name: String!
   email: String!
 }
+
+# DateTime type is provided by Prisma
+# Will have to make own if not using Prisma
+
+type Item {
+  id: ID! @id
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
+  price: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  # user: User!
+}

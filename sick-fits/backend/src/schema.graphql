@@ -1,7 +1,18 @@
+# This is what the React client interfaces with
+# Public facing API
+
+# import * from './generated/prisma.graphql'
+
 type Mutation {
-  placehonder: String!
+  createItem(
+    title: String
+    description: String
+    price: Int
+    image: String
+    largeImage: String
+  ): Item!
 }
 
 type Query {
-  placehonder: String!
+  items: [Item]!
 }
