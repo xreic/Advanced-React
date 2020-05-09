@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+
+// Helpers
 import { perPage } from '../config';
 
 // GraphQL
@@ -20,6 +22,7 @@ const PAGINATION_QUERY = gql`
 // Styles
 import PaginationStyles from './styles/PaginationStyles';
 
+// React
 const Pagination = ({ page }) => (
   <Query query={PAGINATION_QUERY}>
     {({ data, loading, error }) => {

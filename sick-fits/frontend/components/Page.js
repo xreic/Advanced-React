@@ -6,7 +6,7 @@ import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import Meta from './Meta';
 import Header from './Header';
 
-// styled
+// Styled
 const theme = {
   red: '#FF0000',
   black: '#393939',
@@ -44,6 +44,18 @@ injectGlobal`
   }
 `;
 
+// Styles
+const StyledPage = styled.div`
+  background: white;
+  color: ${(props) => props.theme.black};
+`;
+
+const Inner = styled.div`
+  max-width: ${(props) => props.theme.maxWidth};
+  margin: 0 auto;
+  padding: 2rem;
+`;
+
 class Page extends Component {
   render() {
     return (
@@ -59,15 +71,3 @@ class Page extends Component {
 }
 
 export default Page;
-
-// Styled Components
-const StyledPage = styled.div`
-  background: white;
-  color: ${(props) => props.theme.black};
-`;
-
-const Inner = styled.div`
-  max-width: ${(props) => props.theme.maxWidth};
-  margin: 0 auto;
-  padding: 2rem;
-`;

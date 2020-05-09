@@ -9,7 +9,6 @@ import Error from './ErrorMessage';
 
 // Styles
 import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
 
 // GraphQL
 const CREATE_ITEM_MUTATION = gql`

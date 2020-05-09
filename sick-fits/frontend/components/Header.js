@@ -1,8 +1,8 @@
 // Dependencies
-import styled from 'styled-components';
-import nProgress from 'nprogress';
 import Link from 'next/link';
 import Router from 'next/router';
+import styled from 'styled-components';
+import nProgress from 'nprogress';
 
 // Components
 import Nav from './Nav';
@@ -11,32 +11,16 @@ import Nav from './Nav';
 Router.onRouteChangeStart = () => {
   nProgress.start();
 };
+
 Router.onRouteChangeComplete = () => {
   nProgress.done();
 };
+
 Router.onRouteChangeError = () => {
   nProgress.done();
 };
 
-const Header = () => (
-  <StyledHeader>
-    <div className="bar">
-      <Logo>
-        <Link href="/">
-          <a>Sick Fits</a>
-        </Link>
-      </Logo>
-      <Nav />
-    </div>
-    <div className="sub-bar">
-      <p>Search</p>
-    </div>
-    <div>Cart</div>
-  </StyledHeader>
-);
-
-export default Header;
-
+// Styles
 const Logo = styled.h1`
   font-size: 4rem;
   margin-left: 2rem;
@@ -74,3 +58,22 @@ const StyledHeader = styled.header`
     border-bottom: 1px solid ${(props) => props.theme.lightgrey};
   }
 `;
+
+const Header = () => (
+  <StyledHeader>
+    <div className="bar">
+      <Logo>
+        <Link href="/">
+          <a>Sick Fits</a>
+        </Link>
+      </Logo>
+      <Nav />
+    </div>
+    <div className="sub-bar">
+      <p>Search</p>
+    </div>
+    <div>Cart</div>
+  </StyledHeader>
+);
+
+export default Header;
