@@ -131,6 +131,7 @@ class CreateItem extends Component {
               <label htmlFor="description">
                 Description
                 <textarea
+                  type="text"
                   id="description"
                   name="description"
                   placeholder="Description"
