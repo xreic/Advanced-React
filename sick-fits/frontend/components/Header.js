@@ -1,9 +1,22 @@
 // Dependencies
-import Link from 'next/link';
 import styled from 'styled-components';
+import nProgress from 'nprogress';
+import Link from 'next/link';
+import Router from 'next/router';
 
 // Components
 import Nav from './Nav';
+
+// NProgress
+Router.onRouteChangeStart = () => {
+  nProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+  nProgress.done();
+};
+Router.onRouteChangeError = () => {
+  nProgress.done();
+};
 
 const Header = () => (
   <StyledHeader>
