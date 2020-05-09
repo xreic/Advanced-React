@@ -1,3 +1,7 @@
+// Dependencies
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const Mutations = {
   createItem: async (parent, args, ctx, info) => {
     // TODO: Check if they are logged in
@@ -43,9 +47,29 @@ const Mutations = {
 
     const item = await ctx.db.query.item({ where }, `{id title}`);
 
-    // TODO Check if the user owns that item or have permissions to delete 
+    // TODO Check if the user owns that item or have permissions to delete
 
     return ctx.db.mutation.deleteItem({ where }, info);
+  },
+
+  signup: async (parent, args, ctx, info) => {
+    args.email = args.email.toLowerCase();
+
+    const password = await bcrypt.hash(args.password, 10);
+
+    const user = await ctx.db.mutation.createUser(
+      { data: { ...args, password, permissions: { set: ['USER'] } } },
+      info
+    );
+
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+
+    ctx.response.cookie('token', token, {
+      httpOnly: true, // Makes it so that the cookie can only be touched by HTTP (no JS, no addons, etc)
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year cookie
+    });
+
+    return user;
   }
 };
 
