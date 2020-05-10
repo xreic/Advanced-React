@@ -15,11 +15,15 @@ The best place to get help is in the #advanced-react slack room - there is a lin
 
 ## Notes
 
-### info
-  - Refers to the client-side query, when being passed into the second argument of `ctx.db.query` or `ctx.db.mutation`
-  - This helps determine the shape of the return data (?)
-
 ### [getInitialProps](https://nextjs.org/docs/api-reference/data-fetching/getInitialProps)
   - Only use `getInitialProps` to crawl thru the document to allow components to retrieve data from the URL
   - [getStaticProps](https://nextjs.org/docs/basic-features/data-fetching#only-runs-at-build-time)
     - This is because `getStaticProps` doesn't retrieve things that operate at request time (query parameters)
+
+### info
+  - Refers to the client-side query, when being passed into the second argument of `ctx.db.query` or `ctx.db.mutation`
+  - This helps determine the shape of the return data (?)
+
+### [Enumerating in Prisma Types](https://stackoverflow.com/questions/60097942/prisma-deploy-relations-are-expected-for-enums-expecting-an-interface-directiv)
+  - Use this for the `permissions` array
+  - `permissions: [Permission] @scalarList(strategy: RELATION)`
