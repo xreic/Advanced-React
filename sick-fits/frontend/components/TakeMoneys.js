@@ -25,19 +25,27 @@ const CREATE_ORDER_MUTATION = gql`
 import calcTotalPrice from '../lib/calcTotalPrice';
 import Error from './ErrorMessage';
 import User, { CURRENT_USER_QUERY } from './User';
+import Order from '../pages/order';
 
 const totalItems = (items) =>
   items.reduce((tally, item) => tally + item.quantity, 0);
 
 // React
 class TakeMoneys extends Component {
-  onToken = (res, createOrder) => {
-    createOrder({
+  onToken = async (res, createOrder) => {
+    nProgress.start();
+
+    const order = await createOrder({
       variables: {
         token: res.id
       }
     }).catch((err) => {
       alert(err.message);
+    });
+
+    Router.push({
+      pathname: '/order',
+      query: { id: order.data.createOrder.id }
     });
   };
 
