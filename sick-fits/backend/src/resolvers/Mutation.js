@@ -6,6 +6,7 @@ const { promisify } = require('util'); // Node library that takes callback based
 
 // Helpers
 const { transport, makeANiceEmail } = require('../mail');
+const { hasPermission } = require('../utils');
 
 const Mutations = {
   createItem: async (parent, args, ctx, info) => {
@@ -186,6 +187,37 @@ const Mutations = {
     });
 
     return updatedUser;
+  },
+
+  updatePermissions: async (parent, args, ctx, info) => {
+    /**
+     * Check if user logged in
+     * Query current user
+     * Check if current user has perms to adjust perms
+     * Update perms
+     */
+
+    if (!ctx.request.userId) throw new Error('You must be logged in!');
+
+    const currentUser = await ctx.db.query.user(
+      { where: { id: ctx.request.userId } },
+      info
+    );
+
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+
+    /**
+     * Use args.userId, instead of ctx.request.userId
+     *   Because the updating doesn't have to be the currently logged in user
+     * Have to use "set", because permissions is an "enum" type
+     */
+    return ctx.db.mutation.updateUser(
+      {
+        where: { id: args.userId },
+        data: { permissions: { set: args.permissions } }
+      },
+      info
+    );
   }
 };
 
