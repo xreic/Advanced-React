@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import User from '../components/User';
 import Signup from '../components/Signup';
 import Signin from '../components/Signin';
+import RequestReset from '../components/RequestReset';
 
 // Styled
 const Columns = styled.div`
@@ -19,6 +20,7 @@ const SignUpPage = () => {
     <Columns>
       <Signup />
       <User>{({ data: { me } }) => !me && <Signin />}</User>
+      <RequestReset />
     </Columns>
   );
 };

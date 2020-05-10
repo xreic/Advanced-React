@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util'); // Node library that takes callback based functions and returns promise based functions
 
+// Helpers
+const { transport, makeANiceEmail } = require('../mail');
+
 const Mutations = {
   createItem: async (parent, args, ctx, info) => {
     // TODO: Check if they are logged in
@@ -123,6 +126,17 @@ const Mutations = {
     const res = await ctx.db.mutation.updateUser({
       where: { email: args.email },
       data: { resetToken, resetTokenExpiry }
+    });
+
+    await transport.sendMail({
+      from: 'Admin@ThisSite.com',
+      to: user.email,
+      subject: 'Your Password Reset Link',
+      html: makeANiceEmail(
+        `Your Password Reset Token is here! \n\n <a href="${
+          process.env.FRONTEND_URL
+        }/reset?resetToken=${resetToken}">Link</a>`
+      )
     });
 
     return { message: "Check 'em" };
