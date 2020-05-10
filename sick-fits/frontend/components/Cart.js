@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 // Components
 import User from './User';
 import CartItem from './CartItem';
+import TakeMoneys from './TakeMoneys';
 
 // Helpers
 import formatMoney from '../lib/formatMoney';
@@ -66,7 +67,9 @@ const Cart = () => (
           </ul>
           <footer>
             <p>{formatMoney(calcTotalPrice(me.cart))}</p>
-            <SickButton>Checkout</SickButton>
+            <TakeMoneys>
+              <SickButton>Checkout</SickButton>
+            </TakeMoneys>
           </footer>
         </CartStyles>
       );
