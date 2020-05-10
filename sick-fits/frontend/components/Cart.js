@@ -58,7 +58,10 @@ const Cart = () => (
               {me.name}
               {me.name[me.name.length - 1] === 's' ? "'" : "'s"} Cart
             </Supreme>
-            <p>You have {me.cart.length} Item(s) in your cart.</p>
+            <p>
+              You have {me.cart.reduce((prev, item) => prev + item.quantity, 0)}{' '}
+              Item(s) in your cart.
+            </p>
           </header>
           <ul>
             {me.cart.map((item) => (
@@ -67,9 +70,11 @@ const Cart = () => (
           </ul>
           <footer>
             <p>{formatMoney(calcTotalPrice(me.cart))}</p>
-            <TakeMoneys>
-              <SickButton>Checkout</SickButton>
-            </TakeMoneys>
+            {me.cart.length ? (
+              <TakeMoneys>
+                <SickButton>Checkout</SickButton>
+              </TakeMoneys>
+            ) : null}
           </footer>
         </CartStyles>
       );
