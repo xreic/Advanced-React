@@ -2,7 +2,7 @@
 import ForceSignin from '../components/ForceSignin';
 import OrdersList from '../components/OrdersList';
 
-const Orders = (props) => {
+const Orders = () => {
   return (
     <div>
       <ForceSignin>

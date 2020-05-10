@@ -53,10 +53,7 @@ class OrderList extends React.Component {
                 {orders.map((order) => (
                   <OrderItemStyles key={order.id}>
                     <Link
-                      href={{
-                        pathname: '/order',
-                        query: { id: order.id }
-                      }}
+                      href={{ pathname: '/order', query: { id: order.id } }}
                     >
                       <a>
                         <div className="order-meta">
