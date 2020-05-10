@@ -62,4 +62,6 @@ type Query {
   itemsConnection(where: ItemWhereInput): ItemConnection!
 
   me: User
+
+  users: [User]!
 }
