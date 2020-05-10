@@ -22,7 +22,7 @@ const Query = {
     return ctx.db.query.user({ where: { id: ctx.request.userId } }, info);
   },
 
-  users: async (parent, argx, ctx, info) => {
+  users: async (parent, args, ctx, info) => {
     if (!ctx.request.userId) throw new Error('You must be logged in!');
 
     // Function will throw an error, if the user does not have the required permissions
@@ -30,12 +30,23 @@ const Query = {
 
     // This will only return when the throw does not occur
     return ctx.db.query.users({}, info);
-  }
+  },
 
-  // items: async (parent, args, ctx, info) => {
-  //   const items = await ctx.db.query.items();
-  //   return items;
-  // }
+  order: async (parent, args, ctx, info) => {
+    if (!ctx.request.userId) throw new Error('You must be logged in!');
+
+    const order = await ctx.db.query.order({ where: { id: args.id } }, info);
+
+    const ownsOrder = order.user.id === ctx.request.userId;
+    const hasPermissionToSeeOrder = ctx.request.user.permissions.includes(
+      'ADMIN'
+    );
+
+    if (!ownsOrder || !hasPermissionToSeeOrder)
+      throw new Error('Hold on there pal.');
+
+    return order;
+  }
 };
 
 module.exports = Query;
