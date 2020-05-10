@@ -7,7 +7,6 @@ enum Permission {
   PERMISSIONSUPDATE
 }
 
-
 type User {
   id: ID! @id
   name: String!
@@ -30,5 +29,5 @@ type Item {
   price: Int!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  # user: User!
+  user: User!
 }
