@@ -33,7 +33,7 @@ function createClient({ headers }) {
           }
         }
       },
-      defaults: { cartOpen: true }
+      defaults: { cartOpen: false }
     }
   });
 }

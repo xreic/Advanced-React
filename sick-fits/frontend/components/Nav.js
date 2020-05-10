@@ -11,9 +11,10 @@ import Signout from './Signout';
 
 // Styles
 import NavStyles from './styles/NavStyles';
+import CartCount from './CartCount';
 
 // React
-const Nav = (props) => (
+const Nav = () => (
   <User>
     {({ data: { me } }) => (
       <NavStyles>
@@ -33,7 +34,19 @@ const Nav = (props) => (
             </Link>
             <Signout />
             <Mutation mutation={TOGGLE_CART_MUTATION}>
-              {(toggleCart) => <button onClick={toggleCart}>My Cart</button>}
+              {(toggleCart) => (
+                <button onClick={toggleCart}>
+                  My Cart{' '}
+                  {
+                    <CartCount
+                      count={me.cart.reduce(
+                        (prev, item) => prev + item.quantity,
+                        0
+                      )}
+                    />
+                  }
+                </button>
+              )}
             </Mutation>
           </React.Fragment>
         )}

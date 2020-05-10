@@ -25,22 +25,34 @@ const CartItemsStyles = styled.li`
 `;
 
 const CartItem = ({ cartItem }) => {
-  return (
-    <CartItemsStyles>
-      <img width="100" src={cartItem.item.image} alt={cartItem.item.title} />
-      <div className="cart-item-details">
-        <h3>{cartItem.item.title}</h3>
-        <p>
-          {formatMoney(cartItem.item.price * cartItem.quantity)}
-          {' --- '}
-          <em>
-            {cartItem.quantity} &times; {formatMoney(cartItem.item.price)} each
-          </em>
-        </p>
-      </div>
-      <RemoveFromCart id={cartItem.id} />
-    </CartItemsStyles>
-  );
+  if (!cartItem.item) {
+    return (
+      <CartItemsStyles>
+        <div className="cart-item-details">
+          <h3>This item has been removed.</h3>
+        </div>
+        <RemoveFromCart id={cartItem.id} />
+      </CartItemsStyles>
+    );
+  } else {
+    return (
+      <CartItemsStyles>
+        <img width="100" src={cartItem.item.image} alt={cartItem.item.title} />
+        <div className="cart-item-details">
+          <h3>{cartItem.item.title}</h3>
+          <p>
+            {formatMoney(cartItem.item.price * cartItem.quantity)}
+            {' --- '}
+            <em>
+              {cartItem.quantity} &times; {formatMoney(cartItem.item.price)}{' '}
+              each
+            </em>
+          </p>
+        </div>
+        <RemoveFromCart id={cartItem.id} />
+      </CartItemsStyles>
+    );
+  }
 };
 
 export default CartItem;
