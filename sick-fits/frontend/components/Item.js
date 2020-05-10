@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 // Components
+import AddToCart from './AddToCart';
 import DeleteItem from './DeleteItem';
 
 // Helper Functions
@@ -37,7 +38,7 @@ class Item extends Component {
           <Link href={{ pathname: 'update', query: { id: item.id } }}>
             <a>Edit</a>
           </Link>
-          <button>Add To Cart</button>
+          <AddToCart id={item.id} />
           <DeleteItem id={item.id}>Delete Item</DeleteItem>
         </div>
       </ItemStyles>
