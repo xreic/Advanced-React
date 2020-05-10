@@ -2,6 +2,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// Components
+import RemoveFromCart from './RemoveFromCart';
+
 // Helper
 import formatMoney from '../lib/formatMoney';
 
@@ -35,6 +38,7 @@ const CartItem = ({ cartItem }) => {
           </em>
         </p>
       </div>
+      <RemoveFromCart id={cartItem.id} />
     </CartItemsStyles>
   );
 };

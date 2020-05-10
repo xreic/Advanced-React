@@ -262,7 +262,7 @@ const Mutations = {
     );
 
     if (!cartItem) throw new Error('Item not found in cart.');
-    if (cartItem.userId !== ctx.request.userId)
+    if (cartItem.user.id !== ctx.request.userId)
       throw new Error('Hold on there buddy.');
 
     return ctx.db.mutation.deleteCartItem({ where: { id: cartItem.id } }, info);
