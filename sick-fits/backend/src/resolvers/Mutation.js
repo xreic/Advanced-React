@@ -1,6 +1,8 @@
 // Dependencies
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util'); // Node library that takes callback based functions and returns promise based functions
 
 const Mutations = {
   createItem: async (parent, args, ctx, info) => {
@@ -99,6 +101,73 @@ const Mutations = {
   signout: (parent, args, ctx, info) => {
     ctx.response.clearCookie('token');
     return { message: 'Leave!' };
+  },
+
+  requestReset: async (parent, args, ctx, info) => {
+    /**
+     * Check if user exists
+     * Set a reset token and expiry on user
+     * Email reset token
+     */
+
+    const user = await ctx.db.query.user({
+      where: { email: args.email }
+    });
+    if (!user) throw new Error(`No such user found for email: ${args.email}`);
+
+    // promisify takes a function and returns another function
+    // take not of syntax
+    const resetToken = (await promisify(randomBytes)(20)).toString('hex');
+    const resetTokenExpiry = Date.now() + 3600000;
+
+    const res = await ctx.db.mutation.updateUser({
+      where: { email: args.email },
+      data: { resetToken, resetTokenExpiry }
+    });
+
+    return { message: "Check 'em" };
+  },
+
+  resetPassword: async (parent, args, ctx, info) => {
+    /**
+     * Check if the passwords match
+     * Check if legit reset token
+     * Check if expired
+     * Hash new password
+     * Save new password to user
+     * Clear user reset token fields
+     * Generate new JWT
+     * Set JWT cookie
+     * Return new user
+     */
+
+    if (args.password !== args.confirmPassword)
+      throw new Error('Passwords are not matching!');
+
+    const [user] = await ctx.db.query.users({
+      where: {
+        resetToken: args.resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000
+      }
+    });
+    if (!user) throw new Error('Reset token is either invalid or expired');
+
+    const password = await bcrypt.hash(args.password, 10);
+    // prettier-ignore
+    const updatedUser = await ctx.db.mutation.updateUser({
+        where: { email: user.email },
+        data: { password, resetToken: null, resetTokenExpiry: null }
+      },
+      info
+    );
+
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
+    ctx.response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365
+    });
+
+    return updatedUser;
   }
 };
 

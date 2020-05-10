@@ -9,6 +9,18 @@ type SuccessMessage {
   message: String
 }
 
+# This is for security
+# In prisma.graphql, the resetToken and resetTokenExpiry
+#   can be sent back to the user, which can be exploited
+# Do this to make sure that the token cannot be sent back
+#   as then fields do not exist in this data shape
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: [Permission!]!
+}
+
 type Mutation {
   createItem(
     title: String
@@ -27,6 +39,14 @@ type Mutation {
   signin(email: String!, password: String!): User!
 
   signout: SuccessMessage
+
+  requestReset(email: String!): SuccessMessage
+
+  resetPassword(
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
 }
 
 type Query {
