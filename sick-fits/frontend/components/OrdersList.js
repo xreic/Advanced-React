@@ -31,7 +31,7 @@ import Error from './ErrorMessage';
 import OrderItemStyles from './styles/OrderItemStyles';
 
 // Styled
-const OrderUl = styled.ul`
+const orderUl = styled.ul`
   display: grid;
   grid-gap: 4rem;
   grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
