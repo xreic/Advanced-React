@@ -27,3 +27,5 @@ The best place to get help is in the #advanced-react slack room - there is a lin
 ### [Enumerating in Prisma Types](https://stackoverflow.com/questions/60097942/prisma-deploy-relations-are-expected-for-enums-expecting-an-interface-directiv)
   - Use this for the `permissions` array
   - `permissions: [Permission] @scalarList(strategy: RELATION)`
+  - Doesn't need to be used with `cart: [CartItem!]!`
+    - Possibly for arrays of pre-defined data only
