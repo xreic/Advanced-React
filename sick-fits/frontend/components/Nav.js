@@ -1,12 +1,16 @@
 // Dependencies
 import Link from 'next/link';
+import { Mutation } from 'react-apollo';
+
+// Helpers
+import { TOGGLE_CART_MUTATION } from './Cart';
 
 // Components
+import User from './User';
 import Signout from './Signout';
 
-// Styled Components
+// Styles
 import NavStyles from './styles/NavStyles';
-import User from './User';
 
 // React
 const Nav = (props) => (
@@ -28,6 +32,9 @@ const Nav = (props) => (
               <a>Account</a>
             </Link>
             <Signout />
+            <Mutation mutation={TOGGLE_CART_MUTATION}>
+              {(toggleCart) => <button onClick={toggleCart}>My Cart</button>}
+            </Mutation>
           </React.Fragment>
         )}
 

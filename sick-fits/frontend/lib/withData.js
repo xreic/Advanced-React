@@ -1,6 +1,10 @@
+// Dependencies
 import withApollo from 'next-with-apollo';
 import ApolloClient from 'apollo-boost';
+
+// Helpers
 import { endpoint } from '../config';
+import { LOCAL_STATE_QUERY, TOGGLE_CART_MUTATION } from '../components/Cart';
 
 function createClient({ headers }) {
   return new ApolloClient({
@@ -12,6 +16,24 @@ function createClient({ headers }) {
         },
         headers
       });
+    },
+    // Local Data
+    clientState: {
+      resolvers: {
+        Mutation: {
+          toggleCart: (_, variables, { cache }) => {
+            // Read the cache
+            const { cartOpen } = cache.readQuery({ query: LOCAL_STATE_QUERY });
+
+            // Toggle the start of cartOpen
+            const data = { data: { cartOpen: !cartOpen } };
+
+            cache.writeData(data);
+            return data;
+          }
+        }
+      },
+      defaults: { cartOpen: true }
     }
   });
 }
