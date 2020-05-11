@@ -48,7 +48,7 @@ class OrderInfo extends Component {
 
           const { order } = data;
           return (
-            <OrderStyles>
+            <OrderStyles data-test="order">
               <Head>
                 <title>Sick Fits - Order {order.id}</title>
               </Head>
@@ -95,3 +95,4 @@ class OrderInfo extends Component {
 }
 
 export default OrderInfo;
+export { SINGLE_ORDER_QUERY };

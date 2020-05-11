@@ -20,7 +20,7 @@ const REQUEST_RESET_MUTATION = gql`
 
 // React
 class RequestReset extends Component {
-  state = { name: '' };
+  state = { email: '' };
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +36,7 @@ class RequestReset extends Component {
       >
         {(requestReset, { loading, error, called }) => (
           <Form
+            data-test="requestReset"
             method="post"
             onSubmit={async (e) => {
               e.preventDefault();
@@ -72,3 +73,4 @@ class RequestReset extends Component {
 }
 
 export default RequestReset;
+export { REQUEST_RESET_MUTATION };

@@ -24,7 +24,7 @@ const BigButton = styled.button`
   border: 0;
   &:hover {
     color: ${(props) => props.theme.red};
-    cursor: pointer;*
+    cursor: pointer;
   }
 `;
 
@@ -73,3 +73,4 @@ class RemoveFromCart extends Component {
 }
 
 export default RemoveFromCart;
+export { REMOVE_FROM_CART_MUTATION };

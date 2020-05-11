@@ -23,9 +23,7 @@ const CREATE_ORDER_MUTATION = gql`
 
 // Helpers
 import calcTotalPrice from '../lib/calcTotalPrice';
-import Error from './ErrorMessage';
 import User, { CURRENT_USER_QUERY } from './User';
-import Order from '../pages/order';
 
 const totalItems = (items) =>
   items.reduce((tally, item) => tally + item.quantity, 0);
@@ -52,31 +50,36 @@ class TakeMoneys extends Component {
   render() {
     return (
       <User>
-        {({ data: { me } }) => (
-          <Mutation
-            mutation={CREATE_ORDER_MUTATION}
-            refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-          >
-            {(createOrder) => (
-              <StripeCheckout
-                amount={calcTotalPrice(me.cart)}
-                name="Sick Fits"
-                description={`Order of ${totalItems(me.cart)} items!`}
-                image={
-                  me.cart.length && me.cart[0].item && me.cart[0].item.image
-                }
-                stripeKey="pk_test_wQOcQMzlB9frKhhPFWzeMsy300uRmCyaL2"
-                currency="USD"
-                email={me.email}
-                token={(res) => this.onToken(res, createOrder)}
-              >
-                {this.props.children}
-              </StripeCheckout>
-            )}
-          </Mutation>
-        )}
+        {({ data: { me }, loading }) => {
+          if (loading) return null;
+
+          return (
+            <Mutation
+              mutation={CREATE_ORDER_MUTATION}
+              refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+            >
+              {(createOrder) => (
+                <StripeCheckout
+                  amount={calcTotalPrice(me.cart)}
+                  name="Sick Fits"
+                  description={`Order of ${totalItems(me.cart)} items!`}
+                  image={
+                    me.cart.length && me.cart[0].item && me.cart[0].item.image
+                  }
+                  stripeKey="pk_test_wQOcQMzlB9frKhhPFWzeMsy300uRmCyaL2"
+                  currency="USD"
+                  email={me.email}
+                  token={(res) => this.onToken(res, createOrder)}
+                >
+                  {this.props.children}
+                </StripeCheckout>
+              )}
+            </Mutation>
+          );
+        }}
       </User>
     );
   }
 }
 export default TakeMoneys;
+export { CREATE_ORDER_MUTATION };
